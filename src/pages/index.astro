@@ -1,21 +1,84 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ContextAlert from '../components/ContextAlert.astro';
-import Markdown from '../components/Markdown.astro';
+import SongPlayer from '../components/SongPlayer.astro';
+import Gallery from '../components/Gallery.astro';
 
-const explainer = `
-An Astro website can go way beyond static pages - on the right platform.
+const tracks = [
+    {
+        title: 'Tema 1',
+        lyrics: '/lyrics/tema1.md',
+        videoUrl: 'URL_VIDEO',
+        audioUrl: 'URL_AUDIO',
+        description: 'Descripción del tema 1'
+    },
+    {
+        title: 'Tema 2',
+        lyrics: '/lyrics/tema2.md',
+        videoUrl: 'URL_VIDEO',
+        audioUrl: 'URL_AUDIO',
+        description: 'Descripción del tema 2'
+    }
+    // Añade más temas según necesites
+];
 
-Netlify supports not only [Streaming SSR](https://docs.astro.build/en/guides/server-side-rendering/#html-streaming) and fast [Edge Middleware](https://docs.astro.build/en/guides/middleware/), but also [on-demand revalidation](https://www.netlify.com/blog/cache-tags-and-purge-api-on-netlify/) and [stale-while-revalidate](https://www.netlify.com/blog/swr-and-fine-grained-cache-control/). 
-Any page or data can be rebuilt only when needed, without site visitors ever getting a performance hit.
-`;
+const photos = [
+    {
+        url: '/gallery/photo1.jpg',
+        caption: 'Backstage'
+    },
+    {
+        url: '/gallery/photo2.jpg',
+        caption: 'En concierto'
+    }
+    // Añade más fotos según necesites
+];
 ---
 
-<Layout title="Welcome to Astro.">
-    <ContextAlert class="mb-4" />
-    <h1 class="mb-10">Soy Paxo</h1>
-    <Markdown content={explainer} class="text-lg mb-10" />
-    <p class="mb-8">
-        <a href="https://docs.netlify.com/frameworks/astro/" class="btn btn-lg btn-primary sm:btn-wide">Read the Docs</a>
-    </p>
+<Layout title="Nuevo Disco - Paxo">
+    <header class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">Título del Disco</h1>
+        <p class="text-xl">Fecha de lanzamiento</p>
+    </header>
+
+    <section class="mb-16">
+        {
+            tracks.map((track) => (
+                <div class="mb-8 p-6 bg-gray-100 rounded-lg">
+                    <h2 class="text-2xl mb-4">{track.title}</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <SongPlayer url={track.audioUrl} title={track.title} artist="Paxo" />
+                        <div class="flex items-center space-x-4">
+                            <a href={track.lyrics} class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                Ver letra
+                            </a>
+                            <a href={track.videoUrl} class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                                Ver video
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </section>
+
+    <section class="mb-16">
+        <h2 class="text-3xl mb-6">Galería</h2>
+        <Gallery photos={photos} />
+    </section>
+
+    <section>
+        <h2 class="text-3xl mb-6">Reseña</h2>
+        <article class="prose lg:prose-xl mx-auto">
+            <p>
+                <!-- Añade aquí el contenido de la reseña -->
+            </p>
+        </article>
+    </section>
 </Layout>
+
+<style>
+    .prose {
+        max-width: 65ch;
+        margin: 0 auto;
+    }
+</style>
